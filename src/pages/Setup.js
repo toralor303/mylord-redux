@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PlayerList from '../components/PlayerList';
 import PlayerForm from '../components/PlayerForm';
 import { Link } from 'react-router-dom';
@@ -8,18 +8,15 @@ import * as playerActions from '../redux/actions/playerActions';
 import PropTypes from 'prop-types';
 
 const Setup = props => {
-  const [players, setPlayers] = useState([
-    { id: 1, name: 'Charles' },
-    { id: 2, name: 'Steven' }
-  ]);
-
-  props.dispatch(playerActions.createPlayer(players));
+  const addPlayer = playerName => {
+    props.dispatch(playerActions.createPlayer(playerName));
+  };
 
   return (
     <div>
       <img src='images/LogoMyLord.svg' id='titleSetup' alt='MyLord logo' />
       <PlayerForm />
-      <PlayerList players={players} />
+      <PlayerList players={[]} addPlayer={addPlayer} />
       <div className='btnPlaySetup'>
         <Link to='/game'>PLAY !</Link>
       </div>
