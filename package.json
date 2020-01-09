@@ -38,5 +38,17 @@
   },
   "devDependencies": {
     "redux-immutable-state-invariant": "^2.1.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toralor303/mylord-redux.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toralor303/mylord-redux/issues"
+  },
+  "homepage": "https://github.com/toralor303/mylord-redux#readme"
 }
