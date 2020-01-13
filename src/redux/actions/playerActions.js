@@ -1,3 +1,7 @@
-export const createPlayer = name => {
-  return { type: 'CREATE_PLAYER', name };
+export const createPlayer = player => {
+  return { type: 'CREATE_PLAYER', player };
+};
+
+export const deletePlayer = id => {
+  return { type: 'DELETE_PLAYER', id };
 };

@@ -7,12 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import configureStore from './redux/configureStore';
 import { Provider as ReduxProvider } from 'react-redux';
 
-const store = configureStore({
-  players: [
-    { id: 1, name: 'Charles' },
-    { id: 2, name: 'Antho' }
-  ]
-});
+const store = configureStore();
 
 ReactDOM.render(
   <ReduxProvider store={store}>

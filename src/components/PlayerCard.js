@@ -1,19 +1,36 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as playerActions from '../redux/actions/playerActions';
+import { bindActionCreators } from 'redux';
 
-const PlayerCard = ({ id, name }) => {
+const PlayerCard = props => {
   return (
     <>
-      <span>{name}</span>
+      <span>{props.name}</span>
       <img
-        alt={id}
+        alt={'Delete'}
         className='deletePlayer'
         src='images/deletePlayer.svg'
+        style={{ width: '15px' }}
         onClick={() => {
-          console.log('Test delete');
+          console.log(props);
+          props.actions.deletePlayer(props.id);
         }}
       />
     </>
   );
 };
 
-export default PlayerCard;
+function mapStateToProps(state) {
+  return {
+    player: state.players
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(playerActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerCard);
