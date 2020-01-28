@@ -3,8 +3,7 @@ import players from './playerReducer';
 import rule from './ruleReducer';
 
 const rootReducer = combineReducers({
-  players,
-  rule
+  players
 });
 
 export default rootReducer;

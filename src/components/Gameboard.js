@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 
 import PlayerCard from './PlayerCard';
-import Dice from '../components/Dice';
-
-import * as ruleActions from '../redux/actions/ruleActions';
-import { bindActionCreators } from 'redux';
 
 const Gameboard = props => {
   const randomNumbers = () => {
@@ -163,15 +159,8 @@ const Gameboard = props => {
 
 function mapStateToProps(state) {
   return {
-    players: state.players,
-    rule: state.rule
+    players: state.players
   };
-}
+}}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(ruleActions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Gameboard);
+export default connect(mapStateToProps)(Gameboard);
