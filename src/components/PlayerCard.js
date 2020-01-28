@@ -7,23 +7,27 @@ const PlayerCard = props => {
   return (
     <>
       <span>{props.name}</span>
-      <img
-        alt={'Delete'}
-        className='deletePlayer'
-        src='images/deletePlayer.svg'
-        style={{ width: '15px' }}
-        onClick={() => {
-          console.log(props);
-          props.actions.deletePlayer(props.id);
-        }}
-      />
+      {props.delete ? (
+        <img
+          alt={'Delete'}
+          className='deletePlayer'
+          src='images/deletePlayer.svg'
+          style={{ width: '15px' }}
+          onClick={() => {
+            console.log(props);
+            props.actions.deletePlayer(props.id);
+          }}
+        />
+      ) : (
+        <span />
+      )}
     </>
   );
 };
 
 function mapStateToProps(state) {
   return {
-    player: state.players
+    players: state.players
   };
 }
 
