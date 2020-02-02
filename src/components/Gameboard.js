@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import Modal from 'react-bootstrap/Modal';
+import Popup from 'reactjs-popup';
 
 import PlayerCard from './PlayerCard';
 
@@ -17,7 +17,7 @@ const Gameboard = props => {
 
   const [rule, setRule] = useState('');
   const [lords, setLords] = useState([]);
-  const [chooseLord, setChooseLord] = useState(false);
+  const [chooseLord, setChooseLord] = useState(true);
   const [chooseJoker, setChooseJoker] = useState(false);
   const [joker, setJoker] = useState(null);
 
@@ -41,65 +41,66 @@ const Gameboard = props => {
         }
       });
       setBtn(btnValues.roll);
+      setRule('');
     } else {
       setDice(randomNumbers);
-      getRule(dice);
       setBtn(btnValues.next);
     }
   };
 
-  const getRule = () => {
-    const f = dice[0];
-    const s = dice[1];
+  useEffect(() => {
+    if (btn === btnValues.next) {
+      const f = dice[0];
+      const s = dice[1];
 
-    //Two same numbers
-    if (f === s) {
-      //Two sixes...
-      if (f === 6) {
-        //If adding a new Lord doesn't mean all players will be Lords
-        if (lords.length + 1 < props.players.length) {
-          setChooseLord(true);
+      //Two same numbers
+      if (f === s) {
+        //Two sixes...
+        if (f === 6) {
+          //If adding a new Lord doesn't mean all players will be Lords
+          if (lords.length + 1 < props.players.length) {
+            setChooseLord(true);
+            setRule(
+              'Pick a player to drink 6 times (you can pick yourself). When the player is done drinking, he or she becomes Lord. Any disrespect towards them gives them the right to make you drink once. They will now be called my Lord by everyone. They also get to invent a new rule and are responsible for making sure everyone respects it.'
+            );
+          }
+          //If only one player is not Lord, all Lords loose their status
+          else {
+            setLords([]);
+            setRule(
+              'All lords loose their status and become regular players again. The rules set by the lords still apply.'
+            );
+          }
+        } else
           setRule(
-            'Pick a player to drink 6 times (you can pick yourself). When the player is done drinking, he or she becomes Lord. Any disrespect towards them gives them the right to make you drink once. They will now be called my Lord by everyone. They also get to invent a new rule and are responsible for making sure everyone respects it.'
+            f === 1 //Ternary to handle the plural
+              ? 'Pick a player to drink 1 time.'
+              : 'Pick a player to drink ' + f + ' times.'
           );
-        }
-        //If only one player is not Lord, all Lords loose their status
-        else {
-          setLords([]);
-          setRule(
-            'All lords loose their status and become regular players again. The rules set by the lords still apply.'
-          );
-        }
-      } else
+      } else if (f + s === 7 || f + s === 5) {
+        if (f + s === 7) setRule('Cheers ! Everyone drinks !');
+        if (f + s === 5) setRule('The last person to say MyLord drinks');
+      }
+      if (f + s === 3) {
+        setChooseJoker(true);
         setRule(
-          f === 1 //Ternary to handle the plural
-            ? 'Pick a player to drink 1 time.'
-            : 'Pick a player to drink ' + f + ' times.'
+          'You get to choose a new joker. They will take the place of the current one if there is already one.'
         );
-    } else if (f + s === 7 || f + s === 5) {
-      if (f + s === 7) setRule('Cheers ! Everyone drinks !');
-      if (f + s === 5) setRule('The last person to say MyLord drinks');
-    }
-    if (f + s === 3) {
-      setChooseJoker(true);
-      setRule(
-        'You get to choose a new joker. They will take the place of the current one if there is already one.'
-      );
-    }
+      }
 
-    if (rule === '') return 'Better luck next time.';
+      if (rule === '') setRule('Better luck next time.');
+    }
+  }, [dice, lords.length, props.players.length, rule, btn, btnValues.next]);
 
-    return rule;
+  const popupStyle = {
+    color: 'red'
   };
 
   return (
     <>
-      {/* Choose Joker Modal */}
-      <Modal show={chooseJoker} onHide={() => setChooseJoker(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Choose the new Joker</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <Popup open={chooseJoker} modal>
+        <>
+          <h1>Choose the new Joker</h1>
           <p>
             You get to choose a new joker. They will take the place of the current one if
             there is already one.
@@ -110,6 +111,7 @@ const Gameboard = props => {
             .map(player => {
               return (
                 <PlayerCard
+                  key={player.id}
                   delete={false}
                   id={player.id}
                   name={player.name}
@@ -117,21 +119,22 @@ const Gameboard = props => {
                 />
               );
             })}
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-      {/* Choose Lord Modal */}
-      <Modal show={chooseLord} onHide={() => setChooseLord(false)}>
-        <Modal.Header>
-          <Modal.Title>Choose the new Joker</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+        </>
+      </Popup>
+      <Popup open={chooseLord} modal>
+        <>
+          <h1>Choose the new Lord</h1>
+          <p>
+            You get to choose a new Lord. The chosen player has to drink 6 times to become
+            Lord.
+          </p>
           {//Loop through the available players
           props.players
             .filter(player => !lords.includes(player))
             .map(player => {
               return (
                 <PlayerCard
+                  key={player.id}
                   delete={false}
                   id={player.id}
                   name={player.name}
@@ -139,8 +142,8 @@ const Gameboard = props => {
                 />
               );
             })}
-        </Modal.Body>
-      </Modal>
+        </>
+      </Popup>
       <p>It's {player ? player.name : 'Your mom'}'s turn !</p>
       <div className='diceBoard'>
         <img alt={dice[0]} src={'images/' + dice[0] + '.svg'} className='dice' />
@@ -161,6 +164,6 @@ function mapStateToProps(state) {
   return {
     players: state.players
   };
-}}
+}
 
 export default connect(mapStateToProps)(Gameboard);
