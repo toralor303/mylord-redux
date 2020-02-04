@@ -92,10 +92,6 @@ const Gameboard = props => {
     }
   }, [dice, lords.length, props.players.length, rule, btn, btnValues.next]);
 
-  const popupStyle = {
-    color: 'red'
-  };
-
   return (
     <>
       <Popup open={chooseJoker} modal>
