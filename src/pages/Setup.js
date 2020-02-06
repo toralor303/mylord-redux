@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 const Setup = props => {
   const storePlayers = () => {
-    localStorage.setItem('players', props.players[0].name);
+    localStorage.setItem('players', JSON.stringify(props.players));
   };
   return (
     <div>
