@@ -1,17 +1,16 @@
 import React from 'react';
 import PlayerCard from './PlayerCard';
 
+import '../styling/modal.css';
+
 const Modal = props => {
-  /*
-        props: players, role, callback
-    */
   const instructions =
     props.role === 'joker'
       ? 'You get to choose a new joker. They will take the place of the current one if there is already one.'
       : 'You get to choose a new Lord. The chosen player has to drink 6 times to become Lord.';
 
   return (
-    <div className='modal'>
+    <div className={`modal ${props.open ? 'open' : 'close'}`}>
       <div className='modal-frame'>
         <h1 className='title'>
           {'Choose a new ' + props.role === 'joker' ? 'Joker' : 'Lord'}

@@ -8,7 +8,6 @@ const Gameboard = () => {
   };
 
   const players = JSON.parse(localStorage.getItem('players'));
-  console.log(JSON.parse(localStorage.getItem('players')));
   const btnValues = { roll: 'Roll the dice !', next: 'Next player' };
   const [player, setPlayer] = useState(players[0]);
   const [dice, setDice] = useState(randomNumbers);
@@ -84,16 +83,13 @@ const Gameboard = () => {
           //There is a joker
           if (joker !== player) {
             //The joker is not the current player
-            setRule(
-              rule + ' The joker has to drink ' + (f + s === 6 ? '1 time' : '2 times')
-            );
+            setRule('The joker has to drink ' + (f + s === 6 ? '1 time' : '2 times'));
           } //The joker is the current player
           else {
             setRule(
-              rule +
-                (both
-                  ? " You rolled 3 twice while being the joker. You don't have to drink, but you are still the joker. Roll a single 3 to stop being the joker."
-                  : ' You rolled a single 3, you are no longer the joker.')
+              both
+                ? " You rolled 3 twice while being the joker. You don't have to drink, but you are still the joker. Roll a single 3 to stop being the joker."
+                : ' You rolled a single 3, you are no longer the joker.'
             );
             if (!both) setJoker(null);
           }
