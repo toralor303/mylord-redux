@@ -13,9 +13,9 @@ const Gameboard = () => {
   const [dice, setDice] = useState(randomNumbers);
   const [btn, setBtn] = useState(btnValues.roll);
 
-  const [rule, setRule] = useState('');
+  const [rule, setRule] = useState('Better luck next time.');
   const [lords, setLords] = useState([]);
-  const [chooseLord, setChooseLord] = useState(false);
+  const [chooseLord, setChooseLord] = useState(true);
   const [chooseJoker, setChooseJoker] = useState(false);
   const [joker, setJoker] = useState(null);
 
@@ -95,7 +95,7 @@ const Gameboard = () => {
           }
         } //No joker currently
         else {
-          setRule(both ? rule : 'You rolled a 3, you are now the joker !');
+          setRule(r => (both ? r : 'You rolled a 3, you are now the joker !'));
           setJoker(player);
         }
       }
@@ -108,10 +108,8 @@ const Gameboard = () => {
           'You get to choose a new joker. They will take the place of the current one if there is already one.'
         );
       }
-
-      if (rule === '') setRule('Better luck next time.');
     }
-  }, [dice, lords.length, players.length, rule, btn, btnValues.next, joker, player]);
+  }, [dice, lords.length, players.length, btn, btnValues.next, joker, player]);
 
   return (
     <>

@@ -14,8 +14,8 @@ const Setup = props => {
       <img src='images/LogoMyLord.svg' id='titleSetup' alt='MyLord logo' />
       <PlayerForm />
       <PlayerList players={props.players} />
-      <div className='btnPlaySetup'>
-        <Link to='/game' onClick={storePlayers}>
+      <div className='btnPlay'>
+        <Link to='/game' onClick={storePlayers} className='btnPlay'>
           PLAY !
         </Link>
       </div>

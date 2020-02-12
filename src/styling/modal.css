@@ -1,7 +1,47 @@
-.open {
-    display: block;
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Montserrat Regular"), local("Montserrat-Regular"), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wdhyzbi.woff2) format("woff2");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-.close {
-    display: none;
+.modal {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  font-family: 'Helvetica';
 }
+
+.modal .modal-content {
+  background-color: #1a60af;
+  margin: 50% 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 70%;
+  padding: 25px;
+  border-radius: 5px;
+}
+
+.modal .modal-content .modal-closeBtn {
+  float: right;
+  position: relative;
+  right: 5em;
+  -webkit-transform: translate(0, -1.95em);
+          transform: translate(0, -1.95em);
+  color: black;
+  background-color: #d2d434;
+  border-radius: 15px;
+  width: 1.5em;
+  height: 1.5em;
+  -webkit-box-shadow: 0.15em 0.15em #134883;
+          box-shadow: 0.15em 0.15em #134883;
+}
+
+.modal .modal-content .modal-closeBtn:hover {
+  cursor: pointer;
+  color: #ececec;
+}
+/*# sourceMappingURL=modal.css.map */
