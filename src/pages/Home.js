@@ -5,7 +5,7 @@ import styles from '../styling/home.module.scss';
 
 const Home = () => {
   return (
-    <>
+    <div className={styles.container}>
       <h1 className={styles.titleHome}>MyLord</h1>
       <div>
         <Link to='/setup' className={styles.btnPlay}>
@@ -13,7 +13,7 @@ const Home = () => {
         </Link>
       </div>
       <Route path='/setup' component={Setup} />
-    </>
+    </div>
   );
 };
 
