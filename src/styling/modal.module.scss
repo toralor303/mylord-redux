@@ -1,5 +1,4 @@
-$primary: rgb(26, 96, 175);
-$secondary: rgb(210, 212, 52);
+@import '../styling/variables.scss';
 
 @font-face {
     font-family: 'Montserrat';
@@ -18,7 +17,7 @@ $secondary: rgb(210, 212, 52);
 
     font-family: 'Helvetica';
 
-    .modal-content {
+    .modalContent {
         background-color: $primary;
         margin: 50% 50%;
         transform: translate(-50%, -50%);
@@ -26,9 +25,9 @@ $secondary: rgb(210, 212, 52);
         padding: 25px;
         border-radius: 5px;
 
-        .modal-title {}
+        .modalTitle {}
 
-        .modal-closeBtn {
+        .modalCloseBtn {
             float: right;
             position: relative;
             right: 5em;

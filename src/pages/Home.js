@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import Setup from './Setup';
-import '../styling/home.css';
+import styles from '../styling/home.module.scss';
 
 const Home = () => {
   return (
     <>
-      <h1 className='titleHome'>MyLord</h1>
+      <h1 className={styles.titleHome}>MyLord</h1>
       <div>
-        <Link to='/setup' className='btnPlay'>
+        <Link to='/setup' className={styles.btnPlay}>
           PLAY !
         </Link>
       </div>

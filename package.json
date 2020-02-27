@@ -9,6 +9,7 @@
     "bootstrap": "^4.4.1",
     "lodash": "^4.17.15",
     "lodash.uniqueid": "^4.0.1",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",

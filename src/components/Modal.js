@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PlayerCard from './PlayerCard';
 
-import '../styling/modal.scss';
+import styles from '../styling/modal.module.scss';
 
 const Modal = props => {
   const [open, setOpen] = useState(props.open);
@@ -15,12 +15,12 @@ const Modal = props => {
   };
 
   return (
-    <div className={`modal ${open ? 'open' : 'close'}`}>
-      <div className='modal-frame'>
+    <div className={`${styles.modal} ${open ? styles.open : styles.close}`}>
+      <div className={styles.modalFrame}>
         <h1 className='title'>
           {'Choose a new ' + props.role === 'joker' ? 'Joker' : 'Lord'}
         </h1>
-        <p className='closeBtn' onClick={closeModal}>
+        <p className={styles.closeBtn} onClick={closeModal}>
           X
         </p>
 
