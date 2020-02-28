@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as playerActions from '../redux/actions/playerActions';
 import { bindActionCreators } from 'redux';
+import styles from '../styling/playercard.module.scss';
 
 const PlayerCard = props => {
   return (
-    <>
-      <span>{props.name}</span>
+    <div className={styles.card}>
+      <span className={styles.name}>{props.name}</span>
       {props.delete ? (
         <img
           alt={'Delete'}
-          className='deletePlayer'
+          className={styles.btn}
           src='images/deletePlayer.svg'
           style={{ width: '15px' }}
           onClick={() => {
@@ -21,7 +22,7 @@ const PlayerCard = props => {
       ) : (
         <span />
       )}
-    </>
+    </div>
   );
 };
 

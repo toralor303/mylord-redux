@@ -1,0 +1,15 @@
+@import './variables.scss';
+
+.list {
+    height: 50%;
+    width: 60%;
+    margin: 25px auto;
+    padding: 0;
+    border-radius: 5px;
+
+    list-style: none;
+}
+
+li {
+    width: 100%;
+}

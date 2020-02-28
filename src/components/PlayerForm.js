@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import * as playerActions from '../redux/actions/playerActions';
 import { bindActionCreators } from 'redux';
+import styles from '../styling/playerform.module.scss';
 
 const PlayerForm = props => {
   const [playerName, setPlayerName] = useState('');
@@ -16,8 +17,9 @@ const PlayerForm = props => {
   };
 
   return (
-    <form className='form'>
+    <form className={styles.form}>
       <input
+        className={styles.input}
         type='text'
         onChange={e => {
           e.preventDefault();
@@ -25,6 +27,7 @@ const PlayerForm = props => {
         }}
         value={playerName}></input>
       <button
+        className={styles.btn}
         type='submit'
         onClick={e => {
           e.preventDefault();
