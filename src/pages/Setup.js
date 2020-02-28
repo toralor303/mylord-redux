@@ -2,25 +2,22 @@ import React from 'react';
 import PlayerList from '../components/PlayerList';
 import PlayerForm from '../components/PlayerForm';
 import { Link } from 'react-router-dom';
-
 import { connect } from 'react-redux';
-
-import colorCodes from '../styling/variables.scss';
+import styles from '../styling/setup.module.scss';
 
 const Setup = props => {
   const storePlayers = () => {
     localStorage.setItem('players', JSON.stringify(props.players));
   };
+
   return (
-    <div style={{backgroundColor: colorCodes.primaryColor, height: '100vh'}}>
-      <img src='images/LogoMyLord.svg' className='titleSetup' alt='MyLord logo' />
+    <div className={styles.container}>
+      <img src='images/LogoMyLord.svg' className={styles.title} alt='MyLord logo' />
       <PlayerForm />
       <PlayerList players={props.players} />
-      <div className='btnPlay'>
-        <Link to='/game' onClick={storePlayers} className='btnPlay'>
-          PLAY !
-        </Link>
-      </div>
+      <Link to='/game' onClick={storePlayers} className={styles.btn}>
+        PLAY !
+      </Link>
     </div>
   );
 };
