@@ -1,5 +1,26 @@
 @import './variables.scss';
 
+/* Animations */
+@keyframes comeUp {
+    from {
+        bottom: -1000px;
+    }
+
+    to {
+        bottom: 0;
+    }
+}
+
+@keyframes deleteItem {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
 .card {
     background-color: lighten($primary, 15%);
     color: white;
@@ -8,8 +29,33 @@
     width: 100%;
 
     border-radius: 5px;
+
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+
+    position: relative;
+    animation: comeUp 1.2s ease-out;
 }
 
 .name {
-    
+    vertical-align: middle;
+}
+
+.btn {
+    width: 1.2em;
+    height: 1.2em;
+
+    position: relative;
+    top: 0.4em;
+    right: 5px;
+
+    float: right;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.deletedItem {
+    animation: deleteItem 1s ease-in;
 }

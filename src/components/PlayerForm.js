@@ -21,6 +21,7 @@ const PlayerForm = props => {
       <input
         className={styles.input}
         type='text'
+        placeholder='Enter player name'
         onChange={e => {
           e.preventDefault();
           setPlayerName(e.target.value);
@@ -31,7 +32,7 @@ const PlayerForm = props => {
         type='submit'
         onClick={e => {
           e.preventDefault();
-          addPlayer(playerName);
+          if (playerName !== '') addPlayer(playerName);
         }}>
         Add
       </button>

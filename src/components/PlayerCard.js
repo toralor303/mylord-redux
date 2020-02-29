@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import * as playerActions from '../redux/actions/playerActions';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import styles from '../styling/playercard.module.scss';
 
 const PlayerCard = props => {
+  const [isDeleted, setIsDeleted] = useState(false);
+
   return (
     <div className={styles.card}>
       <span className={styles.name}>{props.name}</span>
       {props.delete ? (
         <img
           alt={'Delete'}
-          className={styles.btn}
+          className={isDeleted ? [styles.btn, styles.deletedCard] : styles.btn}
           src='images/deletePlayer.svg'
-          style={{ width: '15px' }}
           onClick={() => {
-            console.log(props);
+            setIsDeleted(true);
             props.actions.deletePlayer(props.id);
           }}
         />
@@ -24,6 +26,12 @@ const PlayerCard = props => {
       )}
     </div>
   );
+};
+
+PlayerCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  delete: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
