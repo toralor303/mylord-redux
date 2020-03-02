@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Modal from './Modal';
+import styles from '../styling/gameboard.module.scss';
 
 const Gameboard = () => {
   const randomNumbers = () => {
@@ -8,16 +9,18 @@ const Gameboard = () => {
   };
 
   const players = JSON.parse(localStorage.getItem('players'));
+  const joker = JSON.parse(localStorage.getItem('joker'));
+
   const btnValues = { roll: 'Roll the dice !', next: 'Next player' };
   const [player, setPlayer] = useState(players[0]);
   const [dice, setDice] = useState(randomNumbers);
   const [btn, setBtn] = useState(btnValues.roll);
+  const [turn, setTurn] = useState(1);
 
   const [rule, setRule] = useState('Better luck next time.');
   const [lords, setLords] = useState([]);
-  const [chooseLord, setChooseLord] = useState(true);
+  const [chooseLord, setChooseLord] = useState(false);
   const [chooseJoker, setChooseJoker] = useState(false);
-  const [joker, setJoker] = useState(null);
 
   const addLord = player => {
     if (lords.length + 1 === players.length) {
@@ -30,7 +33,10 @@ const Gameboard = () => {
   const nextTurn = () => {
     if (btn === btnValues.next) {
       setPlayer(() => {
-        const index = players.indexOf(player);
+        const index = players.findIndex(searchingPlayer =>
+        {
+          return player.id === searchingPlayer.id;
+        });
 
         if (index === players.length - 1) {
           return players[0];
@@ -44,6 +50,8 @@ const Gameboard = () => {
       setDice(randomNumbers);
       setBtn(btnValues.next);
     }
+
+    setTurn(turn + 1);
   };
 
   useEffect(() => {
@@ -91,12 +99,16 @@ const Gameboard = () => {
                 ? " You rolled 3 twice while being the joker. You don't have to drink, but you are still the joker. Roll a single 3 to stop being the joker."
                 : ' You rolled a single 3, you are no longer the joker.'
             );
-            if (!both) setJoker(null);
+            if (!both) localStorage.setItem('joker', null);
           }
         } //No joker currently
         else {
-          setRule(r => (both ? r : 'You rolled a 3, you are now the joker !'));
-          setJoker(player);
+          if(joker !== null){
+            if(joker.turn !== turn) {
+              setRule(r => (both ? r : 'You rolled a 3, you are now the joker !'));
+              localStorage.setItem('joker', {turn, player});
+            }
+          }
         }
       }
       if (f + s === 7) setRule('Cheers ! Everyone drinks !');
@@ -109,7 +121,7 @@ const Gameboard = () => {
         );
       }
     }
-  }, [dice, lords.length, players.length, btn, btnValues.next, joker, player]);
+  }, [dice, lords.length, players.length, btn, btnValues.next, joker, player, turn]);
 
   return (
     <>
@@ -117,7 +129,9 @@ const Gameboard = () => {
         players={players.filter(player => player !== joker)}
         role='joker'
         open={chooseJoker}
-        callback={setJoker}
+        callback={newJoker => {
+          localStorage.setItem('joker', newJoker);
+        }}
       />
       <Modal
         players={players.filter(player => !lords.includes(player))}
@@ -125,13 +139,14 @@ const Gameboard = () => {
         open={chooseLord}
         callback={addLord}
       />
-      <p>It's {player ? player.name : 'Your mom'}'s turn !</p>
-      <div className='diceBoard'>
-        <img alt={dice[0]} src={'images/' + dice[0] + '.svg'} className='dice' />
-        <img alt={dice[1]} src={'images/' + dice[1] + '.svg'} className='dice' />
+      <p className={styles.turn}>It's {player ? player.name : 'Your mom'}'s turn !</p>
+      <div className={styles.diceContainer}>
+        <img alt={dice[0]} src={'images/' + dice[0] + '.svg'} className={styles.dice} />
+        <img alt={dice[1]} src={'images/' + dice[1] + '.svg'} className={styles.dice} />
       </div>
-      <p>{rule}</p>
+      <p className={styles.rule}>{rule}</p>
       <button
+        className={styles.btn}
         onClick={() => {
           nextTurn();
         }}>

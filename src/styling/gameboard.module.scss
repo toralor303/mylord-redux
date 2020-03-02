@@ -1,0 +1,46 @@
+// btn rule dice diceContainer turn
+@import './variables.scss';
+
+.turn {
+    color: white;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.diceContainer {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-evenly;
+    .dice {
+        width: 150px;
+    }
+}
+
+.rule {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    height: 10em;
+}
+
+.btn {
+    margin: 0 auto;
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    background-color: $secondary;
+    padding: 1em 1.5em;
+    border: none;
+    border-radius: 5px;
+
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+
+    box-sizing: border-box;
+}
