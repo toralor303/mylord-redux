@@ -8,7 +8,12 @@ const PlayerList = props => {
       <h3 style={{ color: 'white', textAlign: 'center' }}>Players:</h3>
       {props.players.map(player => (
         <li key={player.id}>
-          <PlayerCard delete={true} id={player.id} name={player.name} />
+          <PlayerCard
+            key={player.id}
+            player={player}
+            delete={true}
+            callBack={props.callback}
+          />
         </li>
       ))}
     </ul>

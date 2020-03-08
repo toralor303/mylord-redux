@@ -10,30 +10,30 @@ const Modal = props => {
       ? 'You get to choose a new joker. They will take the place of the current one if there is already one.'
       : 'You get to choose a new Lord. The chosen player has to drink 6 times to become Lord.';
 
-  const closeModal = () => {
-    setOpen(false);
-  };
+  // const closeModal = () => {
+  //   setOpen(false);
+  // };
 
+  console.log(`I'm the ${props.role} modal, and I am ${open}`);
   return (
     <div className={`${styles.modal} ${open ? styles.open : styles.close}`}>
       <div className={styles.modalFrame}>
-        <h1 className='title'>
-          {'Choose a new ' + props.role === 'joker' ? 'Joker' : 'Lord'}
-        </h1>
-        <p className={styles.closeBtn} onClick={closeModal}>
+        <h1 className={styles.title}>{`Choose a new ${
+          props.role === 'joker' ? 'Joker' : 'Lord'
+        }`}</h1>
+        {/* <p className={styles.closeBtn} onClick={closeModal}>
           X
-        </p>
+        </p> */}
 
-        <p>{instructions}</p>
+        <p className={styles.instructions}>{instructions}</p>
 
         {props.players.map(player => {
           return (
             <PlayerCard
               key={player.id}
-              id={player.id}
-              name={player.name}
+              player={player}
               delete={false}
-              callback={props.callback}
+              callBack={player => props.callback(player)}
             />
           );
         })}

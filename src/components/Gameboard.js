@@ -1,53 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import Modal from './Modal';
 import styles from '../styling/gameboard.module.scss';
 
-const Gameboard = () => {
-  const randomNumbers = () => {
-    return [Math.floor(Math.random() * 6 + 1), Math.floor(Math.random() * 6 + 1)];
-  };
-
-  const players = JSON.parse(localStorage.getItem('players'));
-  const joker = JSON.parse(localStorage.getItem('joker'));
-
+const Gameboard = props => {
   const btnValues = { roll: 'Roll the dice !', next: 'Next player' };
-  const [player, setPlayer] = useState(players[0]);
-  const [dice, setDice] = useState(randomNumbers);
+  const [player, setPlayer] = useState(props.players[0]);
   const [btn, setBtn] = useState(btnValues.roll);
   const [turn, setTurn] = useState(1);
 
   const [rule, setRule] = useState('Better luck next time.');
-  const [lords, setLords] = useState([]);
-  const [chooseLord, setChooseLord] = useState(false);
-  const [chooseJoker, setChooseJoker] = useState(false);
-
-  const addLord = player => {
-    if (lords.length + 1 === players.length) {
-      setLords([]);
-    } else {
-      setLords([...lords, player]);
-    }
-  };
 
   const nextTurn = () => {
     if (btn === btnValues.next) {
       setPlayer(() => {
-        const index = players.findIndex(searchingPlayer =>
-        {
+        const index = props.players.findIndex(searchingPlayer => {
           return player.id === searchingPlayer.id;
         });
 
-        if (index === players.length - 1) {
-          return players[0];
+        if (index === props.players.length - 1) {
+          return props.players[0];
         } else {
-          return players[index + 1];
+          return props.players[index + 1];
         }
       });
       setBtn(btnValues.roll);
       setRule('');
     } else {
-      setDice(randomNumbers);
       setBtn(btnValues.next);
     }
 
@@ -56,23 +33,23 @@ const Gameboard = () => {
 
   useEffect(() => {
     if (btn === btnValues.next) {
-      const f = dice[0];
-      const s = dice[1];
+      const f = props.dice[0];
+      const s = props.dice[1];
 
       //Two same numbers
       if (f === s) {
         //Two sixes...
         if (f === 6) {
           //If adding a new Lord doesn't mean all players will be Lords
-          if (lords.length + 1 < players.length) {
-            setChooseLord(true);
+          if (props.lords.length + 1 < props.players.length) {
+            props.setChooseLord(true);
             setRule(
               'Pick a player to drink 6 times (you can pick yourself). When the player is done drinking, he or she becomes Lord. Any disrespect towards them gives them the right to make you drink once. They will now be called my Lord by everyone. They also get to invent a new rule and are responsible for making sure everyone respects it.'
             );
           }
           //If only one player is not Lord, all Lords loose their status
           else {
-            setLords([]);
+            props.setLords([]);
             setRule(
               'All lords loose their status and become regular players again. The rules set by the lords still apply.'
             );
@@ -87,9 +64,9 @@ const Gameboard = () => {
       if (f === 3 || s === 3) {
         const both = f + s === 6;
         //Rolled at least one 3
-        if (joker != null) {
+        if (props.joker != null) {
           //There is a joker
-          if (joker !== player) {
+          if (props.joker !== player) {
             //The joker is not the current player
             setRule('The joker has to drink ' + (f + s === 6 ? '1 time' : '2 times'));
           } //The joker is the current player
@@ -103,10 +80,10 @@ const Gameboard = () => {
           }
         } //No joker currently
         else {
-          if(joker !== null){
-            if(joker.turn !== turn) {
+          if (props.joker !== null) {
+            if (props.joker.turn !== turn) {
               setRule(r => (both ? r : 'You rolled a 3, you are now the joker !'));
-              localStorage.setItem('joker', {turn, player});
+              localStorage.setItem('joker', { turn, player });
             }
           }
         }
@@ -115,34 +92,30 @@ const Gameboard = () => {
       if (f + s === 5) setRule('The last person to say MyLord drinks');
 
       if (f + s === 3) {
-        setChooseJoker(true);
+        props.setChooseJoker(true);
         setRule(
           'You get to choose a new joker. They will take the place of the current one if there is already one.'
         );
       }
     }
-  }, [dice, lords.length, players.length, btn, btnValues.next, joker, player, turn]);
+  }, [props, btn, btnValues.next, player, turn]);
 
   return (
     <>
-      <Modal
-        players={players.filter(player => player !== joker)}
-        role='joker'
-        open={chooseJoker}
-        callback={newJoker => {
-          localStorage.setItem('joker', newJoker);
-        }}
-      />
-      <Modal
-        players={players.filter(player => !lords.includes(player))}
-        role='lord'
-        open={chooseLord}
-        callback={addLord}
-      />
-      <p className={styles.turn}>It's {player ? player.name : 'Your mom'}'s turn !</p>
+      <p className={styles.turn}>
+        Player :<br /> {player.name}
+      </p>
       <div className={styles.diceContainer}>
-        <img alt={dice[0]} src={'images/' + dice[0] + '.svg'} className={styles.dice} />
-        <img alt={dice[1]} src={'images/' + dice[1] + '.svg'} className={styles.dice} />
+        <img
+          alt={props.dice[0]}
+          src={'images/' + props.dice[0] + '.svg'}
+          className={styles.dice}
+        />
+        <img
+          alt={props.dice[1]}
+          src={'images/' + props.dice[1] + '.svg'}
+          className={styles.dice}
+        />
       </div>
       <p className={styles.rule}>{rule}</p>
       <button
@@ -156,10 +129,4 @@ const Gameboard = () => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    players: state.players
-  };
-}
-
-export default connect(mapStateToProps)(Gameboard);
+export default Gameboard;

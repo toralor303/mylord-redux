@@ -9,8 +9,12 @@ const PlayerCard = props => {
   const [isDeleted, setIsDeleted] = useState(false);
 
   return (
-    <div className={styles.card}>
-      <span className={styles.name}>{props.name}</span>
+    <div
+      className={styles.card}
+      onClick={() => {
+        if (!props.delete) props.callBack(props.player);
+      }}>
+      <span className={styles.name}>{props.player.name}</span>
       {props.delete ? (
         <img
           alt={'Delete'}
@@ -18,7 +22,7 @@ const PlayerCard = props => {
           src='images/deletePlayer.svg'
           onClick={() => {
             setIsDeleted(true);
-            props.actions.deletePlayer(props.id);
+            props.actions.deletePlayer(props.player.id);
           }}
         />
       ) : (
@@ -29,9 +33,7 @@ const PlayerCard = props => {
 };
 
 PlayerCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  delete: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired
+  player: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
